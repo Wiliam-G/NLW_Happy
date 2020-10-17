@@ -18,7 +18,7 @@ const icon = L.icon({
 // create popup overlay
 const popup = L.popup({
   closeButton: false,
-  className: 'map-pupup',
+  className: "map-pupup",
   minWidth: 240,
   minHeight: 240,
 }).setContent(
