@@ -1,4 +1,5 @@
-const orphanages = require('./database/fakedata');
+const Database = require('./database/db');
+const saveOrphanage = require('./database/saveOrphanage');
 
 module.exports = {
   index(req, res) {
@@ -6,12 +7,42 @@ module.exports = {
     return res.render("index", { name: name });
   },
 
-  orphanage(req, res) {
-      return res.render("orphanage")
+
+  async orphanage(req,res) {
+    const id = req.query.id;
+
+    try {
+      const db = await Database;
+      const orphanage = await db.all("select * from orphanages where id = 2");
+      return res.render("orphanage");
+    } catch (error) {
+      console.log(error);
+      return res.send("Erro no banco de dados!")
+    }
   },
 
-  orphanages(req, res) {
-      return  res.render('orphanages', { orphanages})
+
+  // orphanage(req, res) {
+  //   try {
+  //     const db = await Database;
+  //     const orphanages = await db.all('select * from orphanages');
+  //     return  res.render('orphanage', { orphanage});
+  //   } catch (err) {
+  //     console.log(err);
+  //     return res.send("Erro no bando de dados!");
+  //   }
+      
+  // }
+
+  async orphanages(req, res) {
+    try {
+      const db = await Database;
+      const orphanages = await db.all('select * from orphanages');
+      return  res.render('orphanages', { orphanages});
+    } catch (err) {
+      console.log(err);
+      return res.send("Erro no bando de dados!");
+    }
   },
 
   createOrphanage(req, res) {
